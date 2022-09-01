@@ -24,13 +24,15 @@ def get_cash_data(ticker):
     cash_data = {}
     cash_data[ticker] = si.get_cash_flow(ticker, yearly = False)
     return cash_data
-data_load_state.text('Loading data...done!')
+
 
 #Ticker input
 ticker = st.text_input("Input ticker for analysis",value="")
+ticker = ticker.upper()
+
 col1, col2 = st.columns(2, gap='small')
 if ticker:
-
+    data_load_state.text('Loading data...done!')
     #Load Ticker Data
     cash_data = get_cash_data(ticker)
     quote_data = get_quote_data(ticker)
@@ -84,7 +86,15 @@ if ticker:
         st.plotly_chart(fig6)
     
     
+    #52 Week Range
+    end = float(quote_data[ticker].loc[1].value.split()[-1])
+    begin = float(quote_data[ticker].loc[1].value.split()[0])
+    col1.metric("52 Week Range",quote_data[ticker].loc[1].value, delta = (end - begin)) 
     
-    
+    #Days Range
+    end = float(quote_data[ticker].loc[6].value.split()[-1])
+    begin = float(quote_data[ticker].loc[6].value.split()[0])
+    col2.metric("Days Range",quote_data[ticker].loc[6].value, delta = (end - begin)) 
+
     
     
