@@ -81,7 +81,7 @@ if ticker:
             domain = {'x': [0.1, 1], 'y': [0.2, 0.9]},
             title = {'text': f"Market Cap ${ticker} {measure}illion"}))
 
-        st.plotly_chart(fig5)
+        st.plotly_chart(fig6)
     
     
     
