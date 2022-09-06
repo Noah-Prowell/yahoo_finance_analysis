@@ -110,5 +110,5 @@ if ticker:
     with col1:
         fig7 = px.line(earnings_df, x='startdatetime', y = ['epsestimate', 'epsactual'], 
                 title = f"EPS {title} Estimate vs Acutal", labels = {'startdatetime':'Date', 'value':'EPS in $'})
-        st.plotly_chart(fig5)
+        st.plotly_chart(fig7)
     
