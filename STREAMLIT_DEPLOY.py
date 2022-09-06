@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 st.set_page_config(layout='wide')
 
 
-st.title('Stock Analysis')
+st.markdown(f"<h1 style='text-align: center; color: black;'>Stock Analysis</h1>", unsafe_allow_html=True)
 
 data_load_state = st.text('Loading data...')
 @st.cache
@@ -31,7 +31,7 @@ def get_cash_data(ticker):
 ticker = st.text_input("Input ticker for analysis",value="")
 ticker = ticker.upper()
 current_price = si.get_live_price('nflx')
-st.markdown(f"<h1 style='text-align: center; color: black;'>{ticker}s current price {current_price}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h1 style='text-align: center; color: black;'>{ticker}s current price</h1>", unsafe_allow_html=True)
 st.markdown(f"<h2 style='text-align: center; color: green;'>{current_price}</h2>", unsafe_allow_html=True)
 
 col1, col2 = st.columns(2, gap='small')
