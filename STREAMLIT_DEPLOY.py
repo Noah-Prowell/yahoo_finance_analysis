@@ -10,6 +10,8 @@ import plotly.graph_objects as go
 
 st.set_page_config(layout='wide')
 
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 st.title('Stock Analysis')
 
 data_load_state = st.text('Loading data...')
@@ -96,5 +98,18 @@ if ticker:
     begin = float(quote_data[ticker].loc[6].value.split()[0])
     col2.metric("Days Range",quote_data[ticker].loc[6].value, delta = (end - begin)) 
 
+    #EPS Data
+    def earnings_data(ticker):
+        earnings = si.get_earnings_history(ticker)
+        earnings_df = pd.DataFrame()
+        for i in earnings:
+            earnings_df = pd.concat([earnings_df, pd.DataFrame(pd.Series(i)).T])
+        return earnings_df, earnings
     
+    earnings_df, earnings_dict = earnings_data(ticker)
+    title = earnings_dict[0]['companyshortname']
+    
+    fig7 = px.line(earnings_df, x='startdatetime', y = ['epsestimate', 'epsactual'], 
+               title = f"EPS {title} Estimate vs Acutal", labels = {'startdatetime':'Date', 'value':'EPS in $'})
+    fig7.show()
     
