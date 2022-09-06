@@ -30,6 +30,9 @@ def get_cash_data(ticker):
 #Ticker input
 ticker = st.text_input("Input ticker for analysis",value="")
 ticker = ticker.upper()
+current_price = si.get_live_price('nflx')
+st.markdown(f"<h1 style='text-align: center; color: red;'>{current_price}</h1>", unsafe_allow_html=True)
+
 
 col1, col2 = st.columns(2, gap='small')
 if ticker:
