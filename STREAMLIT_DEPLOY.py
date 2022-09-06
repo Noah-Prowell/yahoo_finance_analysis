@@ -107,8 +107,8 @@ if ticker:
     
     earnings_df, earnings_dict = earnings_data(ticker)
     title = earnings_dict[0]['companyshortname']
-    
-    fig7 = px.line(earnings_df, x='startdatetime', y = ['epsestimate', 'epsactual'], 
-               title = f"EPS {title} Estimate vs Acutal", labels = {'startdatetime':'Date', 'value':'EPS in $'})
-    fig7.show()
+    with col1:
+        fig7 = px.line(earnings_df, x='startdatetime', y = ['epsestimate', 'epsactual'], 
+                title = f"EPS {title} Estimate vs Acutal", labels = {'startdatetime':'Date', 'value':'EPS in $'})
+        st.plotly_chart(fig5)
     
