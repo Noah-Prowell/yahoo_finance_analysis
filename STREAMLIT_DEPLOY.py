@@ -7,6 +7,7 @@ import yahoo_fin.stock_info as si
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+from yahoo_fin.options import get_options_chain
 
 st.set_page_config(layout='wide')
 
@@ -30,12 +31,15 @@ def get_cash_data(ticker):
 #Ticker input
 ticker = st.text_input("Input ticker for analysis",value="")
 ticker = ticker.upper()
-
-col1, col2 = st.columns(2, gap='small')
 if ticker:
-    current_price = si.get_live_price('nflx')
+    current_price = si.get_live_price(ticker)
+    market_status = si.get_market_status()
+    st.markdown(f"<h2 style='text-align: center; color: black;'>Market is currently {market_status}</h2>", unsafe_allow_html=True)
     st.markdown(f"<h1 style='text-align: center; color: black;'>{ticker}s current price</h1>", unsafe_allow_html=True)
     st.markdown(f"<h2 style='text-align: center; color: green;'>{current_price}</h2>", unsafe_allow_html=True)
+
+col1, col2 = st.columns(2, gap='large')
+if ticker:
     data_load_state.text('Loading data...done!')
     #Load Ticker Data
     cash_data = get_cash_data(ticker)
@@ -110,8 +114,17 @@ if ticker:
     
     earnings_df, earnings_dict = earnings_data(ticker)
     title = earnings_dict[0]['companyshortname']
+    
     with col1:
         fig7 = px.line(earnings_df, x='startdatetime', y = ['epsestimate', 'epsactual'], 
                 title = f"EPS {title} Estimate vs Acutal", labels = {'startdatetime':'Date', 'value':'EPS in $'})
         st.plotly_chart(fig7)
-    
+    with col2:
+        st.markdown(f"<h2 style='text-align: center; color: green;'>Need Visual Here</h2>", unsafe_allow_html=True)
+    with col1:
+        st.markdown(f"<h2 style='text-align: center; color: green;'>Calls Option Chain</h2>", unsafe_allow_html=True)
+        st.dataframe(get_options_chain(ticker)['calls'])
+        
+    with col2:
+        st.markdown(f"<h2 style='text-align: center; color: green;'>Put Options Chain</h2>", unsafe_allow_html=True)
+        st.dataframe(get_options_chain(ticker)['calls'])
